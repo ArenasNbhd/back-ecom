@@ -1,0 +1,21 @@
+> Para dudas sobre el BACKEND, ver apartir de la clase del 8 de abril
+> Para dudas sobre la Consola de Firebase (DB), ver sesión del 21 de marzo
+> Para cambios y merge de ramas en caso de ser necesario, ver sesión del 8 de abril, minuto 59:00
+
+UBICACIÓN DE LOS CÓDIGOS
+> authRoutes.js
+  - Rutas para registrarse, loggearse (authRoutes.js)
+
+> authControllers.js
+  - Encriptación de contraseña
+  - Mandamos llamar las rutas para registrarse y loggearse
+  - Código para registrarse
+  - Código para loggearse
+  - Código para agregar más datos para registrarse
+
+> firebase.js
+  - Conexión a la DB (firebase.js) {Archivo sin necesidad de modifcar}
+
+CÓDIGOS MODIFICADOS SUJETOS A POSIBLES ERRORES
+> Package.json
+  7. "dev": "nodemon index.js"
