@@ -52,7 +52,24 @@ exports.login = async (req, res) => { //Solicitamos o exportamos la ruta de auth
             })
         }
         const user = findEmail.user
-        const findPassword = await bcrypt.compare(password, user.password) //Compara si el 'password'(el que manda el usuario) es igual al 'user.password'(el pass encriptado en la db)
+        const findPassword = await bcrypt.compare(password, user.password) //Compara si el 'password'(el que manda el usuario, sin encriptarS) es igual al 'user.password'(el pass encriptado en la db)
+        
+        if (!findPassword.success) { //Si los password no son iguales, mando un msj que lo diga
+            res.status(401).json({
+                message: 'Password incorrecto'
+            })
+        }
+
+        const token = jsonwebtoken.sign({ //Si son correctas y coinciden, generamos nuestro token
+            email: user.email, //Ponemos la información que va a llevar el token dentro
+            userId: user.Id
+        }, process.env.TOP_SECRET, { //Palabra secreta utilizada para generar el token
+            expiresIn: '1h' //Duración del token
+        }) 
+
+        res.status(200).json({ 
+            token: token //Regresamos el token, el cual contiene los datos del usuario
+        })
     } catch (error) {
         res.status(500).json({
             message: error.message
