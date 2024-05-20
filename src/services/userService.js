@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken') //Funciones del JsonWebToken
 const { createUser, findUserByEmail } = require('../models/userModel') //El modelo es el constructor de las operaciones, deben estar las que vamos a requerir
+require('dotenv').config()
 
 exports.createUser = async (userData) => { //Recibe un objeto que regresará cierta información
     try {
@@ -57,7 +58,10 @@ exports.generateToken = async (user) => { //Recibe un usuario
         const token = jwt.sign({  //Generamos el token
             email: user.email, //Información que va a llevar el token
             userId: user.id
-        })
+        },
+        process.env.TOP_SECRET,
+        { expiresIn: '1h' } //El token expira en una hora
+    )
     } catch (error) {
         throw new Error('Error al generar el token')
     }
