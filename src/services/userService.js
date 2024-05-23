@@ -6,7 +6,7 @@ require('dotenv').config()
 exports.createUser = async (userData) => { //Recibe un objeto que regresará cierta información
     try {
         const createdUser = await createUser(userData) //Si la variable existe, sí se pudo crear
-        if (createdUser) { //Si se genera la variable, retorno
+        if (createdUser.success) { //Si se genera la variable, retorno
             return {
                 success: true
             }

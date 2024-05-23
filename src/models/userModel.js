@@ -1,9 +1,10 @@
 const firebase = require('../config/firebase') //Acceso a la base de datos
-const usersCollection = firebase.firebase().collection('users')
+const usersCollection = firebase.firestore().collection('users')
 
 exports.createUser = async (userData) => {
     try {
-        await usersCollection.doc(userData.id).set(userData)
+        const user = await usersCollection.doc(userData.id).set(userData)
+        console.log('@@ modelo => ', user)
         return {
             success: true
         }
@@ -37,9 +38,21 @@ exports.findUserById = async (userId) => {
     }
 }
 
-exports.findUserById = async (email) => {
+exports.findUserByEmail = async (email) => {
     try {
         const userEmail = await usersCollection.where('email', '==', email).get() //En la colección, con el 'where', busca los campos 'email', va a encontrar un email que sea igual al que se está mandando
+        if(!userEmail.empty) { //Si no está vacía esta variable, entonces sí encontró un usuario
+            const userFound = userEmail.docs[0]
+            return {
+                success: true,
+                user: userFound.data()
+            }
+        } else {
+            return {
+                success: false,
+                error: 'User not Found'
+            }
+        }
     } catch (error) {
         return {
             success: false,

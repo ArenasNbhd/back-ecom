@@ -5,11 +5,11 @@ const { createUser, findUserByEmail } = require('../services/userService')
 exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para registrarnos
     try {
         // Código para registrarse
-        const { email, password } = req.body //Nos llegan el email y la contraseña como objetos
-        const existing = await findUserByEmail(email) //Método para checar en mi DB si el correo existe o no
+        const { email, password, id } = req.body //Nos llegan el email y la contraseña como objetos
+        const existingUser = await findUserByEmail(email) //Método para checar en mi DB si el correo existe o no
         if (existingUser.success) { //Si existe, solicito que retorne un mensaje que diga que ya existe
             return res.status(400).json({
-                message: 'El usuario ya está resgitrado'
+                message: 'El usuario ya está registrado'
             })
         }
         //Si el usuario no existe, primero debes hashear(encriptar) su password
@@ -19,7 +19,8 @@ exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de aut
         //Después, se crea nuestro usuario
         const newUser = { //Creamos un objeto, para mandar los datos en forma de objeto
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            id: id
             //Agregar más datos 
         }
 
@@ -54,7 +55,7 @@ exports.login = async (req, res) => { //Solicitamos o exportamos la ruta de auth
         const user = findEmail.user
         const findPassword = await bcrypt.compare(password, user.password) //Compara si el 'password'(el que manda el usuario, sin encriptarS) es igual al 'user.password'(el pass encriptado en la db)
         
-        if (!findPassword.success) { //Si los password no son iguales, mando un msj que lo diga
+        if (!findPassword) { //Si los password no son iguales, mando un msj que lo diga
             res.status(401).json({
                 message: 'Password incorrecto'
             })

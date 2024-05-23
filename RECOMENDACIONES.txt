@@ -6,6 +6,7 @@ DUDAS
 > Para dudas sobre el BACKEND, ver apartir de la clase del 8 de abril
 > Para dudas sobre la Consola de Firebase (DB), ver sesión del 21 de marzo
 > Para cambios y merge de ramas en caso de ser necesario, ver sesión del 8 de abril, minuto 59:00
+> Para insertar datos con Postman, ver sesión 11 de abril, minuto 58:00
 
 UBICACIÓN DE LOS CÓDIGOS
 > authRoutes.js
@@ -29,3 +30,7 @@ EXTRA
 1. En 'index.js' se da de alta y pone a trabajar el servidor, y damos de alta un ruteador
 2. El ruteador está configurado en el 'routes/authRoutes.js'
 3. Dependiendo de la ruta, se va al 'controllers/authControllers.js'
+
+POSTMAN
+> El principio de la ruta se extrae del 'Index.js' la cual es (/api/auth), seguido de, se pone la ruta de signup o login, extraidas de
+  'authRoutes', las cuales son (/signup) y (/login)
