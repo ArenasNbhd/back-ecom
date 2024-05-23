@@ -6,5 +6,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 router.post('/signup', authController.signup) //Ruta para registrarse
 router.post('/login', authController.login) //Ruta para ingresar/loggearse
 router.get('/get-allusers', authMiddleware, authController.getAllUsers) //El 'authMiddleware valida el token', si sí, ejecuta 'authController.getAllUsers'
+router.delete('/:id', authMiddleware, authController.deleteUser) //Ruta para elimiar usuario
+router.put('/:id', authMiddleware, authController.User) // Ruta para Actualizar
 
 module.exports = router //Exportar las rutas para poder utilizarlas en otros lugares

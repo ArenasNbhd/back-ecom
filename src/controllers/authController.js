@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
-const { createUser, findUserByEmail, getAllUsers } = require('../services/userService')
+const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = require('../services/userService')
 
 exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para registrarnos
     try {
@@ -93,3 +93,31 @@ exports.getAllUsers = async (req, res) => { //Solicitamos o exportamos la ruta p
     }
 }
 
+exports.updateUser = async (req, res) => { //Solicitamos o exportamos la ruta para actualizar usuarios
+    try {
+        const userId = req.params.id
+        const userData = req.body
+        await updateUser(userId, userData)
+        res.status(200).json({
+            message: 'User update successfully'
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error updating user'
+        })
+    }
+}
+
+exports.deleteUser = async (req, res) => { //Solicitamos o exportamos la ruta para Elimar usuarios 
+    try {
+        const userId = req.params.id //Funciona para elimiar usuarios, solo necesitamos el ID 
+        await deleteUser(userId)
+        res.status(200).json({
+            message: 'User delate successfully'
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error deleting user'
+        })
+    }
+}

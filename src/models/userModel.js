@@ -73,3 +73,19 @@ exports.getAllUsers = async () => {
         throw new Error('Error Getting Users: ' + error.message)
     }
 }
+
+exports.deleteUSer = async (userId) => {
+    try {
+        await usersCollection.doc(userId).delete() // Busca el UserId y lo borra
+    } catch (error) {
+        throw new Error('Error deleting user' + error.message)
+    }
+}
+
+exports.updateUSer = async (userId, userData) => {
+    try {
+        await usersCollection.doc(userId).update(userData)
+    } catch (error) {
+        throw new Error('Error updating user' + error.message)
+    }
+}
