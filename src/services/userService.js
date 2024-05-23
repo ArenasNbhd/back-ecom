@@ -1,93 +1,115 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken') //Funciones del JsonWebToken
-const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = require('../models/userModel') //El modelo es el constructor de las operaciones, deben estar las que vamos a requerir
-require('dotenv').config()
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken'); //Funciones del JsonWebToken
+const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = require('../models/userModel'); //El modelo es el constructor de las operaciones, deben estar las que vamos a requerir
+require('dotenv').config(); // Cargar variables de entorno
 
-exports.createUser = async (userData) => { //Recibe un objeto que regresará cierta información
+exports.createUser = async (userData) => {
     try {
-        const createdUser = await createUser(userData) //Si la variable existe, sí se pudo crear
-        if (createdUser.success) { //Si se genera la variable, retorno
+        const createdUser = await createUser(userData);
+        if (createdUser.success) {
             return {
-                success: true
-            }
-        } 
+                success: true,
+                message: 'Usuario registrado satisfactoriamente'
+            };
+        }
         return {
             success: false,
-            message:'Error al registrar'
-        }
-    } catch (error) { //Aquí solo regresamos el msj que se regresa desde el authController.js (linea 38)
-        return {
-            success: false,
-            error: error.message
-        }
-    }
-}
-
-exports.findUserByEmail = async (email) => { //Recibe un email
-    try {
-        const found = await findUserByEmail(email) //Si la variable existe, sí se pudo crear
-        if (found.success) { //Si se genera la variable, retorno
-            return {
-                success: true, //Regresa el msj que regresa el authController.js
-                user: found.user
-            }
-        } 
-        return {
-            success: false,
-            message:'Usuario no encontrado'
-        }
-    } catch (error) { //Aquí solo regresamos el msj que se regresa desde el authController.js (linea 38)
-        return {
-            success: false,
-            error: error.message
-        }
-    }
-}
-
-exports.comparePasswords = async (plainPassword, hashedPassword) => { //Llega el plainPassword(Password que llega del Front), y el hashedPassword(Pass encriptada)
-    try {
-        const verifyPassword = await bcrypt.compare(plainPassword, hashedPassword) //Comparar el password que me llega con el hashedpassword
-        return verifyPassword //Solo me va a regresar 'verdadero' o 'falso'
+            message: 'Error al registrar'
+        };
     } catch (error) {
-        throw new Error('Error al comparar passwords') //Error que sale si no se pudo completar la operación
+        return {
+            success: false,
+            error: error.message
+        };
     }
-}
+};
 
-exports.generateToken = async (user) => { //Recibe un usuario
+exports.findUserByEmail = async (email) => {
     try {
-        const token = jwt.sign({  //Generamos el token
-            email: user.email, //Información que va a llevar el token
+        const found = await findUserByEmail(email);
+        if (found.success) {
+            return {
+                success: true,
+                user: found.user
+            };
+        }
+        return {
+            success: false,
+            message: 'Usuario no encontrado'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+};
+
+exports.comparePasswords = async (plainPassword, hashedPassword) => {
+    try {
+        const verifyPassword = await bcrypt.compare(plainPassword, hashedPassword);
+        return verifyPassword; // Retorna verdadero o falso
+    } catch (error) {
+        throw new Error('Error al comparar passwords: ' + error.message);
+    }
+};
+
+exports.generateToken = async (user) => {
+    try {
+        const token = jwt.sign({
+            email: user.email,
             userId: user.id
         },
         process.env.TOP_SECRET,
-        { expiresIn: '1h' } //El token expira en una hora
-    )
+        { expiresIn: '1h' }
+        );
+        return token; // Retornar el token generado
     } catch (error) {
-        throw new Error('Error al generar el token')
+        throw new Error('Error al generar el token: ' + error.message);
     }
-}
+};
 
 exports.getAllUsers = async () => {
     try {
-        const users = await getAllUsers()
-        return users
+        const users = await getAllUsers();
+        return {
+            success: true,
+            users
+        };
     } catch (error) {
-        return new Error('Error Getting Users: ' + error.message)
+        return {
+            success: false,
+            error: 'Error Getting Users: ' + error.message
+        };
     }
-}
+};
 
 exports.deleteUser = async (userId) => {
     try {
-        await deleteUser(userId)
+        await deleteUser(userId);
+        return {
+            success: true,
+            message: 'Usuario eliminado correctamente'
+        };
     } catch (error) {
-        throw new Error('Error Deleting user' + error.message)
+        return {
+            success: false,
+            error: 'Error eliminando usuario: ' + error.message
+        };
     }
-}
+};
 
-exports.updateUser = async (userId) => { // Recibe ID y userData
+exports.updateUser = async (userId, userData) => { // Agregar userData como parámetro
     try {
-        await updateUser(userId, userData)
+        await updateUser(userId, userData);
+        return {
+            success: true,
+            message: 'Usuario actualizado correctamente'
+        };
     } catch (error) {
-        throw new Error('Error updating user' + error.message)
+        return {
+            success: false,
+            error: 'Error actualizando usuario: ' + error.message
+        };
     }
-}
+};
