@@ -19,7 +19,7 @@ exports.createUser = async (userData) => {
 exports.findUserById = async (userId) => {
     try { //Buscar si dentro de la colección, encontramos un doc con el mismo ID
         const userFound = await usersCollection.doc(userId).get()
-        if (userFound.exists) { //Si existe, regresa un msj anteriormente soliciado
+        if (userFound.exists) { //Si existe, regresa un msj anteriormente solicitado
             return {
                 success: true,
                 user: userDoc.data()
@@ -58,5 +58,18 @@ exports.findUserByEmail = async (email) => {
             success: false,
             error: error.message
         }
+    }
+}
+
+exports.getAllUsers = async () => {
+    try {
+        const allUsers = await usersCollection.get() //Obtiene los usuarios y los guarda en forma de arreglo
+        const users = []
+        allUsers.forEach((doc) => {
+            users.push(doc.data())
+        })
+        return users
+    } catch (error) {
+        throw new Error('Error Getting Users: ' + error.message)
     }
 }

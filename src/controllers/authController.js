@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
-const { createUser, findUserByEmail } = require('../services/userService')
+const { createUser, findUserByEmail, getAllUsers } = require('../services/userService')
 
 exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para registrarnos
     try {
@@ -74,6 +74,21 @@ exports.login = async (req, res) => { //Solicitamos o exportamos la ruta de auth
     } catch (error) {
         res.status(500).json({
             message: error.message
+        })
+    }
+}
+
+exports.getAllUsers = async (req, res) => { //Solicitamos o exportamos la ruta para obtener todos los usuarios
+    try {
+        const users = await getAllUsers() //Función para obtenerlos, si se obtienen, mando un mensaje
+        res.status(200).json({
+            message: 'Success',
+            users
+        })
+    } catch (error) {
+        res.status(500).json({ //Si no se obtienen, mando un mensaje
+            message: 'Server Error Getting All Users',
+            error: error.message
         })
     }
 }

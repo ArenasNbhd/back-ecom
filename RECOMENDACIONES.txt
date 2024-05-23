@@ -1,6 +1,7 @@
 CLASES FINALIZADAS
 > 8 abril
-> 11 abril, minuto: 50:27
+> 11 abril
+> 15 abril minuto 39:08
 
 DUDAS
 > Para dudas sobre el BACKEND, ver apartir de la clase del 8 de abril
@@ -22,6 +23,9 @@ UBICACIÓN DE LOS CÓDIGOS
 > firebase.js
   - Conexión a la DB (firebase.js) {Archivo sin necesidad de modifcar}
 
+> midleware.js 
+  - Recibe la petición de la ruta, verifica o no el token, al verificar, sigue su ruta
+
 CÓDIGOS MODIFICADOS SUJETOS A POSIBLES ERRORES
 > Package.json
   7. "dev": "nodemon index.js"
@@ -30,6 +34,11 @@ EXTRA
 1. En 'index.js' se da de alta y pone a trabajar el servidor, y damos de alta un ruteador
 2. El ruteador está configurado en el 'routes/authRoutes.js'
 3. Dependiendo de la ruta, se va al 'controllers/authControllers.js'
+4. Cuando llegue la petición a la ruta, de la ruta me voy a 'authMiddleware', se valida el token y si no, se deshecha.
+   Una vez validado, sigue el proceso.
+5. Se va al 'userService' el cual los recibe como objetos, genera token y los manda hacia 'userModel'
+6. llega a 'userModel', donde nos conectamos a la DB
+
 
 POSTMAN
 > El principio de la ruta se extrae del 'Index.js' la cual es (/api/auth), seguido de, se pone la ruta de signup o login, extraidas de

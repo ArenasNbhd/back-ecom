@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken') //Funciones del JsonWebToken
-const { createUser, findUserByEmail } = require('../models/userModel') //El modelo es el constructor de las operaciones, deben estar las que vamos a requerir
+const { createUser, findUserByEmail, getAllUsers } = require('../models/userModel') //El modelo es el constructor de las operaciones, deben estar las que vamos a requerir
 require('dotenv').config()
 
 exports.createUser = async (userData) => { //Recibe un objeto que regresará cierta información
@@ -64,5 +64,14 @@ exports.generateToken = async (user) => { //Recibe un usuario
     )
     } catch (error) {
         throw new Error('Error al generar el token')
+    }
+}
+
+exports.getAllUsers = async () => {
+    try {
+        const users = await getAllUsers()
+        return users
+    } catch (error) {
+        return new Error('Error Getting Users: ' + error.message)
     }
 }
