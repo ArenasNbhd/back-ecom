@@ -5,7 +5,7 @@ const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = req
 exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para registrarnos
     try {
         // Código para registrarse
-        const { email, password, id } = req.body //Nos llegan el email y la contraseña como objetos
+        const { email, password, id, name, secname, adress, numero, city, cp, province, country } = req.body //Nos llegan el email y la contraseña y más información como objetos
         const existingUser = await findUserByEmail(email) //Método para checar en mi DB si el correo existe o no
         if (existingUser.success) { //Si existe, solicito que retorne un mensaje que diga que ya existe
             return res.status(400).json({
@@ -20,7 +20,15 @@ exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de aut
         const newUser = { //Creamos un objeto, para mandar los datos en forma de objeto
             email: email,
             password: hashedPassword,
-            id: id
+            id: id,
+            name: name,
+            secname: secname,
+            adress: adress,
+            numero: numero,
+            city: city,
+            cp: cp,
+            province: province,
+            country: country
             //Agregar más datos 
         }
 
@@ -44,16 +52,16 @@ exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de aut
 exports.login = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para loggearnos
     try {
         // Código para loggearnos
-        const { email, password } = req.body //Recibimos los parámetros del email y pass
+        const { email, password, numero } = req.body //Recibimos los parámetros del email, pass y numero
         const findEmail = await findUserByEmail(email) //Verificamos si el correo existe (findUserByEmail regresa el usuario completo con tods la info de la DB)
 
         if (!findEmail.success) { //Si no encuentra el correo, solicito un msj que lo diga
-            res.status(401).json({
+            return res.status(401).json({
                 message: 'Usuario no encontrado'
             })
         }
         const user = findEmail.user
-        const findPassword = await bcrypt.compare(password, user.password) //Compara si el 'password'(el que manda el usuario, sin encriptarS) es igual al 'user.password'(el pass encriptado en la db)
+        const findPassword = await bcrypt.compare(password, user.password) //Compara si el 'password'(el que manda el usuario, sin encriptar) es igual al 'user.password'(el pass encriptado en la db)
         
         if (!findPassword) { //Si los password no son iguales, mando un msj que lo diga
             res.status(401).json({

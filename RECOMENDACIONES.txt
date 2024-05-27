@@ -1,13 +1,15 @@
 CLASES FINALIZADAS
 > 8 abril
 > 11 abril
-> 15 abril minuto 39:08
+> 15 abril 
+> 22 abril (Front)
 
 DUDAS
 > Para dudas sobre el BACKEND, ver apartir de la clase del 8 de abril
 > Para dudas sobre la Consola de Firebase (DB), ver sesión del 21 de marzo
 > Para cambios y merge de ramas en caso de ser necesario, ver sesión del 8 de abril, minuto 59:00
 > Para insertar datos con Postman, ver sesión 11 de abril, minuto 58:00
+> Para dudas sobre FRONTEND, ver a apartir de la clase del 22 de abril
 
 UBICACIÓN DE LOS CÓDIGOS
 > authRoutes.js
