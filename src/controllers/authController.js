@@ -75,7 +75,6 @@ exports.login = async (req, res) => { //Solicitamos o exportamos la ruta de auth
         }, process.env.TOP_SECRET, { //Palabra secreta utilizada para generar el token
             expiresIn: '1h' //Duración del token
         }) 
-
         res.status(200).json({ 
             token: token //Regresamos el token, el cual contiene los datos del usuario
         })
