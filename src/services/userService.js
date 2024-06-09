@@ -6,6 +6,7 @@ require('dotenv').config(); // Cargar variables de entorno
 exports.createUser = async (userData) => {
     try {
         const createdUser = await createUser(userData);
+        console.log('@@@ service => ', createdUser)
         if (createdUser.success) {
             return {
                 success: true,

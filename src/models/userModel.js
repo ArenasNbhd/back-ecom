@@ -2,6 +2,7 @@ const firebase = require('../config/firebase') //Acceso a la base de datos
 const usersCollection = firebase.firestore().collection('users')
 
 exports.createUser = async (userData) => {
+    console.log('@@@ model => ', userData)
     try {
         const user = await usersCollection.doc(userData.id).set(userData)
         console.log('@@ modelo => ', user)

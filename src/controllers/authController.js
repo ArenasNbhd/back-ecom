@@ -5,7 +5,7 @@ const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = req
 exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de authRoutes para registrarnos
     try {
         // Código para registrarse
-        const { email, password, id, name, secname, adress, numero, city, cp, province, country } = req.body //Nos llegan el email y la contraseña y más información como objetos
+        const { email, password, name, secname, adress, numero, city, cp} = req.body //Nos llegan el email y la contraseña y más información como objetos
         const existingUser = await findUserByEmail(email) //Método para checar en mi DB si el correo existe o no
         if (existingUser.success) { //Si existe, solicito que retorne un mensaje que diga que ya existe
             return res.status(400).json({
@@ -27,12 +27,11 @@ exports.signup = async (req, res) => { //Solicitamos o exportamos la ruta de aut
             numero: numero,
             city: city,
             cp: cp,
-            province: province,
-            country: country
             //Agregar más datos 
         }
 
         const userResult = await createUser(newUser) //Mandamos el objeto
+        console.log('@@@ result => ', userResult)
         if (userResult.success) { //Si el usuario fue creado con éxito, solicito un mensaje que lo diga
             res.status(201).json({
                 message: 'Usuario Registrado Satisfactoriamente'
