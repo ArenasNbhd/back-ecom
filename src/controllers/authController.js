@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt') //Error Git
 const jsonwebtoken = require('jsonwebtoken')
 const { createUser, findUserByEmail, getAllUsers, deleteUser, updateUser } = require('../services/userService')
 
